@@ -1,0 +1,75 @@
+﻿@*Vi bruger vores Model-Klasse "Student" og laver det til en IEnumerable liste hvilket gør at vi kan gennemløbe listen af students*@
+@model IEnumerable<StudentAdministration_v3.Models.Student>
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Student List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Student" asp-action="Create" class="btn btn-primary">Add Student to list</a>  @*asp-controller siger hvilken controller vi skal bruge og Action fortæller hvilken action i controller klassen vi vil gøre brug af*@
+        </div>
+    </div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="table-warning">
+                        <i class="fas fa-search text-grey" aria-hidden="true"></i>
+                        Student Name
+                    </th>
+                    <th class="table-warning">
+                        Email
+                    </th>
+                    <th class="table-warning">
+                        Education
+                    </th>
+                    <th class="table-warning">
+                        Semester Number
+                    </th>
+                    <th class="table-warning">
+                        Changes
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td width="20%">@student.StudentName</td>
+                        <td width="20%">@student.Email</td>
+                        <td width="20%">@student.EducationName</td>
+                        <td width="20%">@student.SemesterNo</td>
+                        <td width="20%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Student" asp-action="Update" asp-route-Id="@student.Id" class="btn btn-primary mx-1">Update</a>
+                                <a asp-controller="Student" asp-action="Delete" asp-route-Id="@student.Id" class="btn btn-danger mx-1">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No students are added to the list yet</p>
+    }
+
+</div>
+
+<partial name="_pager" model="@pager" />
