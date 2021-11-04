@@ -25,23 +25,27 @@ namespace StudentAdministration_v3.Models
             int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             int currentPage = page;
 
-            int startPage = currentPage - 5;
-            int endPage = currentPage + 4;
+            int startPage = Math.Max(1, currentPage - 5);
+            int endPage = Math.Min(totalPages, startPage + 9);
 
-            if (startPage <= 0)
-            {
-                endPage = endPage - (startPage - 1);
-                startPage = 1;
-            }
 
-            if (endPage > totalPages)
-            {
-                endPage = totalPages;
-                if (endPage > 10)
-                {
-                    startPage = endPage - 9;
-                }
-            }
+            //int startPage = currentPage - 5;
+            //int endPage = currentPage + 4;
+
+            //if (startPage <= 0)
+            //{
+            //    endPage = endPage - (startPage - 1);
+            //    startPage = 1;
+            //}
+
+            //if (endPage > totalPages)
+            //{
+            //    endPage = totalPages;
+            //    if (endPage > 10)
+            //    {
+            //        startPage = endPage - 9;
+            //    }
+            //}
 
             TotalItems = totalItems;
             CurrentPage = currentPage;

@@ -59,12 +59,12 @@ namespace StudentAdministration_v3.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Students.Find(id);
-            if(obj == null)
+            Student student = _db.Students.Find(id);
+            if(student == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(student);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,12 +89,12 @@ namespace StudentAdministration_v3.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Students.Find(id);
-            if (obj == null)
+            Student student = _db.Students.Find(id);
+            if (student == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(student);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -104,7 +104,6 @@ namespace StudentAdministration_v3.Controllers
             {
                 _db.Students.Update(student);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
             }
             return View("Index");
         }
