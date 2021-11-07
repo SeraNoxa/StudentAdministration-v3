@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentAdministration_v3.Data;
+using StudentAdministration_v3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,17 @@ namespace StudentAdministration_v3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<IdentityAppContext>();
             services.AddControllersWithViews();
+
+            services.AddDbContext<IdentityAppContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"));
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
@@ -43,7 +54,7 @@ namespace StudentAdministration_v3
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
